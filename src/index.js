@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
 import YTSearch from 'youtube-api-search';
 import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 const API_KEY = 'AIzaSyDQVcE8BXbj-Y3ScEZtursKP3ioq0tqTGI'; 
 
 //Create a New Component. This Component Wil Produce HTMl.
@@ -16,18 +17,30 @@ class App extends Component {
 
         this.state = {
             videos:  [],
+            selectedVideo : null,
         };
         
-        YTSearch({ key: API_KEY, term: 'Devil May Cry' }, (videos) => {
+       this.videoSearch('Devil May Cry');
+    }
+
+
+    videoSearch(term){
+        
+        YTSearch({ key: API_KEY, term }, (videos) => {
             this.setState({
                 videos,  // Equivalent to videos(state) : videos(Object & State)
+                selectedVideo : videos[0],
             });
         });
+
     }
     render(){
     return ( <div>
-        <SearchBar />
-        <VideoList videos = {this.state.videos} />
+        <SearchBar onSearchTermChange = { term => this.videoSearch(term) }/>
+        <VideoDetail video={this.state.selectedVideo}/>
+        <VideoList 
+        onVideoSelect = {selectedVideo => this.setState({selectedVideo}) }
+        videos = {this.state.videos} />
     </div>
     );
 }
