@@ -1,9 +1,12 @@
+import _ from 'lodash';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
 import YTSearch from 'youtube-api-search';
 import VideoList from './components/video_list';
-import { DatePicker } from 'antd';
+import VideoDetail from './components/video_detail';
+
+
 const API_KEY = 'AIzaSyDQVcE8BXbj-Y3ScEZtursKP3ioq0tqTGI'; 
 
 //Create a New Component. This Component Wil Produce HTMl.
@@ -17,19 +20,39 @@ class App extends Component {
 
         this.state = {
             videos:  [],
+            selectedVideo : null,
         };
-        
-        YTSearch({ key: API_KEY, term: 'Devil May Cry' }, (videos) => {
+         YTSearch({ key: API_KEY, term:'One Punch Man' }, (videos) => {
             this.setState({
                 videos,  // Equivalent to videos(state) : videos(Object & State)
+                selectedVideo : videos[0],
             });
         });
+       
+        
+    }
+
+
+    videoSearch(term){
+        
+        YTSearch({ key: API_KEY, term }, (videos) => {
+            this.setState({
+                videos,  // Equivalent to videos(state) : videos(Object & State)
+                
+            });
+        });
+
     }
     render(){
+
+        const videoSearch = _.debounce( (term) => {this.videoSearch(term)}, 300);
+
     return ( <div>
-        <SearchBar />
-        <VideoList videos = {this.state.videos} />
-        {/* <DatePicker />, mountnode */}
+        <SearchBar onSearchTermChange = { videoSearch }/>
+        <VideoDetail video={this.state.selectedVideo}/>
+        <VideoList 
+        onVideoSelect = {selectedVideo => this.setState({selectedVideo}) }
+        videos = {this.state.videos} />
     </div>
     );
 }
