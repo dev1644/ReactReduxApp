@@ -1,4 +1,4 @@
-import  React from 'react';
+import  React, { Component } from 'react';
 
 const VideoDetail = ({video}) =>{
 
@@ -16,8 +16,11 @@ const VideoDetail = ({video}) =>{
             
             </div>
             <div className="details">
-                <div> {video.snippet.title} </div>
+                <div> <b>{video.snippet.title}</b> </div>
+                <div> {video.snippet.channelTitle} </div><br/>
                 <div> {video.snippet.description} </div>
+            
+                {/* <div><b>Published On: </b>{video.snippet.publishedAt}</div> */}
             </div>
         </div>);
 

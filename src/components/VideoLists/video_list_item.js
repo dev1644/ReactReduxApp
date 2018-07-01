@@ -16,7 +16,9 @@ onClick = { () => onVideoSelect(video)}
 </div>
 <div className="media-body">
 <div className="media-heading">
-{video.snippet.title}
+<div>
+<b>{video.snippet.title}</b></div>
+<div>{video.snippet.channelTitle}</div>
 </div>
 </div>
   </div>

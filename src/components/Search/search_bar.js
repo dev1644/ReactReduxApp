@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-
+import Logo from "../images/aa.png"
 class SearchBar extends Component{
     constructor(props)
     {
@@ -12,10 +12,13 @@ class SearchBar extends Component{
          
         return (
             <div className="search-bar"> 
+            <img src={Logo} alt="logo" style={{width:'114px'}}/>
+           
         <input 
             value = {this.state.term}
-            onChange = { event => this.onInputChange(event.target.value)} />
-        
+            onChange = { event => this.onInputChange(event.target.value)} 
+            placeholder="Search"/>
+
         </div>
     );
     }

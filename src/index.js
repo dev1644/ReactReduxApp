@@ -22,7 +22,7 @@ class App extends Component {
             videos:  [],
             selectedVideo : null,
         };
-         YTSearch({ key: API_KEY, term:'One Punch Man' }, (videos) => {
+         YTSearch({ key: API_KEY, term:'React Native' }, (videos) => {
             this.setState({
                 videos,  // Equivalent to videos(state) : videos(Object & State)
                 selectedVideo : videos[0],
