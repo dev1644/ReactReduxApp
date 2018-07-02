@@ -16,7 +16,7 @@ export function getData(data,url) {
 export function* UserDetailsSaga(action) {
   console.log("EditBAnkinsaga123",action.data)
   try {
-    const response = yield call(getData,action.data,`https://randomuser.me/api`);
+    const response = yield call(getData,action.data,`https://apimychoice.sia.co.in/admin/userlist`);
     const data = response.data;
     // dispatch a success action to the store with the new data
     yield put({ type: GET_USER_LIST_DETAILS_SUCCESS, data });

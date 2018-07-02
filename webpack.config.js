@@ -1,3 +1,8 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractSass = new ExtractTextPlugin({
+  filename:  "css/[name].css"
+  // filename:  ? "css/[name].[contenthash].css" : "css/[name].css"
+});
 module.exports = {
   entry: ["babel-polyfill",'./src/index.js'],
   output: {
@@ -7,6 +12,21 @@ module.exports = {
   },
   
   module: {
+    rules: [
+      {
+        test: /\.css$/,
+        test: /(\.css|\.scss)$/,
+        use: ['css-hot-loader'].concat(extractSass.extract({
+        use: [{
+        loader: "css-loader",
+        options: { url: false }
+        },
+        ],
+        // use style-loader in development
+        fallback: "style-loader"
+        })),
+      }
+    ],
     loaders: [
       {
         exclude: /node_modules/,
@@ -21,12 +41,18 @@ module.exports = {
           'file?hash=sha512&digest=hex&name=[hash].[ext]',
           'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
-      } 
+      },
+     
     ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
+  plugins: [ 
+           // cleaning up the destination directory before writing new files        
+           new CleanWebpackPlugin(['dist/***/**/*.css', 'dist/**/*.js', 'dist/**/*.js.*', 'dist/*.html']),        
+            ],
+  
   devServer: {
     historyApiFallback: true,
     contentBase: './',
